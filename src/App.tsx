@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 import { Navbar } from './components/Navbar'
 import { Login } from './pages/Login'
@@ -9,17 +9,17 @@ import { SignUp } from './pages/SignUp'
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
-      <div className="container">
+      <main className="container">
         <Routes>
-          <Route path="/login" element={Login} />
-          <Route path="/signup" element={SignUp} />
-          <Route path="/" element={Main} />
-          <Route path="*" element={NotFound} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>
-    </BrowserRouter>
+      </main>
+    </>
   )
 }
 

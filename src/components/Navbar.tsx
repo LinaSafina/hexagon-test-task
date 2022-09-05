@@ -4,15 +4,15 @@ import { NavLink } from 'react-router-dom'
 export const Navbar: React.FC = () => (
   <nav>
     <div className="nav-wrapper cyan darken-1 px1">
-      <NavLink to="/" className="brand-logo">
-        Redux + TypeScript
+      <NavLink to="/main" className="brand-logo">
+        MakeItShort
       </NavLink>
       <ul className="right hide-on-med-and-down">
         <li cy-data="home-nav-link">
-          <NavLink to="/">Home</NavLink>
+          <NavLink to="/signup">SignUp</NavLink>
         </li>
         <li>
-          <NavLink to="/about">About</NavLink>
+          <NavLink to="/login">Login</NavLink>
         </li>
       </ul>
     </div>
