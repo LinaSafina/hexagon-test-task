@@ -11,8 +11,6 @@ export const Pagination = ({
   onPageChange,
   isLastPage,
 }: PaginationProps) => {
-  // const currentPageMessage = `Page ${page} out of ${amountOfPages}`
-
   const isFirstPage = page === 1
 
   const previousPagesColor = isFirstPage ? 'grey' : 'black'
@@ -30,9 +28,6 @@ export const Pagination = ({
   const goToNextPage = (event: React.MouseEvent<HTMLButtonElement> | null) => {
     onPageChange(event, page + 1)
   }
-  // const goToLastPage = () => {
-  //   onPageChange(amountOfPages)
-  // }
 
   return (
     <StyledPagination>
@@ -54,11 +49,6 @@ export const Pagination = ({
           <NextPageIcon color={nextPagesColor} />
         </ButtonStyled>
       </li>
-      {/* <li>
-        <ButtonStyled onClick={goToLastPage} disabled={isLastPage}>
-          <LastPageIcon color={nextPagesColor} />
-        </ButtonStyled>
-      </li> */}
     </StyledPagination>
   )
 }
