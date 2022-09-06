@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { ErrorBoundary } from './components/error-boundary/ErrorBoundary'
 
 import { Navbar } from './components/navbar/Navbar'
 import { Login } from './pages/Login'
@@ -33,13 +34,15 @@ const App: React.FC = () => {
     <>
       <Navbar />
       <main>
-        <Routes>
-          <Route path="/" element={<Navigate to="/main" replace />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <ErrorBoundary>
+          <Routes>
+            <Route path="/" element={<Navigate to="/main" replace />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/main" element={<Main />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ErrorBoundary>
       </main>
     </>
   )
