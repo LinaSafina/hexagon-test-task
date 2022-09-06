@@ -8,11 +8,10 @@ import { useAppDispatch } from '../../store/hooks'
 import { addLink } from '../../store/linksSlice'
 import { LINK_GENERATOR } from './constants'
 import { StyledForm } from './styled'
-import { Notification } from '../notification/Notification'
+import { Props } from './types'
 
-export const LinkGenerator: React.FC = () => {
+export const LinkGenerator: React.FC<Props> = ({ setErrorMsg }) => {
   const [targetLink, setTargetLink] = useState('')
-  const [errorMsg, setErrorMsg] = useState('')
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -25,20 +24,18 @@ export const LinkGenerator: React.FC = () => {
 
     try {
       const token = localStorage.getItem('token')
+
       if (!token) {
         navigate('/login')
       } else {
         const { data, error } = await fetchData({
           url: `${URLS.SQUEEZE}?link=${targetLink}`,
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            Authorization: `Bearer ${token}`,
-          },
+          token,
           method: 'POST',
         })
 
         if (error) {
-          setErrorMsg(data.detail)
+          setErrorMsg(error)
         } else {
           dispatch(addLink(data))
           setTargetLink('')
@@ -49,19 +46,8 @@ export const LinkGenerator: React.FC = () => {
     }
   }
 
-  const errorNotificationCloseHandler = () => {
-    setErrorMsg('')
-  }
-
   return (
     <>
-      <Notification
-        isOpened={!!errorMsg}
-        onNotificationClose={errorNotificationCloseHandler}
-        message={errorMsg}
-        vertical="top"
-        horizontal="center"
-      />
       <StyledForm onSubmit={submitFormHandler}>
         <TextField
           autoFocus

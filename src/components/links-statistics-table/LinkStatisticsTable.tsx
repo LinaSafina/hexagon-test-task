@@ -7,16 +7,14 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
-import { ORDER, SHORT_LINKS_URL, URLS } from '../../pages/constants'
-import { selectIsLoggedIn } from '../../store/authSlice'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { selectLinks, setLinks } from '../../store/linksSlice'
+import { ORDER, SHORT_LINKS_URL } from '../../pages/constants'
+import { useAppSelector } from '../../store/hooks'
+import { selectLinks } from '../../store/linksSlice'
 import { Pagination } from '../pagination/Pagination'
-import { fetchData } from '../../helpers/fetchData'
 import {
   ALTS,
   IDS,
@@ -34,66 +32,17 @@ import {
 } from './styled'
 import copy from '../../assets/copy-icon.svg'
 import { Notification } from '../notification/Notification'
+import { TableProps } from './types'
 
-const rowsPerPage = 10
-
-export const LinksStatisticsTable: React.FC = () => {
+export const LinksStatisticsTable: React.FC<TableProps> = ({
+  setOrder,
+  isLastPage,
+  page,
+}) => {
   const [isTableShown, setIsTableShown] = useState(true)
-  const links = useAppSelector(selectLinks)
-  const isLoggedIn = useAppSelector(selectIsLoggedIn)
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const [searchParam, setSearchParam] = useSearchParams({ page: '1' })
-  const [order, setOrder] = useState('asc_short')
-  const [isLastPage, setIsLastPage] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
-  const [errorMsg, setErrorMsg] = useState('')
-
-  const page = searchParam.get('page') || '1'
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate('/login')
-    } else {
-      const offset = (+page - 1) * rowsPerPage
-
-      const fetchStatistics = async (token: string) => {
-        const { data, error } = await fetchData({
-          url: `${URLS.STATISTICS}?order=${order}&offset=${offset}&limit=${
-            rowsPerPage + 1
-          }`,
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-            Authorization: `Bearer ${token}`,
-          },
-        })
-
-        if (error) {
-          setErrorMsg(data.detail)
-        } else {
-          setIsLastPage(data.length <= rowsPerPage)
-
-          if (data.length <= rowsPerPage) {
-            dispatch(setLinks(data))
-          } else {
-            dispatch(setLinks(data.slice(0, -1)))
-          }
-        }
-      }
-
-      try {
-        const token = localStorage.getItem('token')
-
-        if (!token) {
-          navigate('/login')
-        } else {
-          fetchStatistics(token)
-        }
-      } catch (e) {
-        console.log(e)
-      }
-    }
-  }, [isLoggedIn, setLinks, order, rowsPerPage, page])
+  const links = useAppSelector(selectLinks)
+  const [, setSearchParam] = useSearchParams()
 
   const toggleTableHandler = () => {
     setIsTableShown((prevState) => !prevState)
@@ -118,7 +67,7 @@ export const LinksStatisticsTable: React.FC = () => {
       target = TYPES.COUNT
     }
 
-    setOrder((prevState) =>
+    setOrder((prevState: string) =>
       prevState === ORDER.ASC[target] ? ORDER.DESC[target] : ORDER.ASC[target]
     )
   }
@@ -131,19 +80,8 @@ export const LinksStatisticsTable: React.FC = () => {
     setIsCopied(false)
   }
 
-  const errorNotificationCloseHandler = () => {
-    setErrorMsg('')
-  }
-
   return (
     <>
-      <Notification
-        isOpened={!!errorMsg}
-        onNotificationClose={errorNotificationCloseHandler}
-        message={errorMsg}
-        vertical="top"
-        horizontal="center"
-      />
       <Notification
         isOpened={isCopied}
         onNotificationClose={notificationCloseHandler}

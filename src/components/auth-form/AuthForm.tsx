@@ -54,8 +54,8 @@ export const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
       })
 
       if (error) {
-        setErrorMsg(data.detail)
-      } else if (isLogin && data) {
+        setErrorMsg(data)
+      } else if (isLogin) {
         dispatch(loginUser({ token: data.access_token, username: username }))
         navigate('/main')
       } else {

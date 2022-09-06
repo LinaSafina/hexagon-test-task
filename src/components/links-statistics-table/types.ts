@@ -1,4 +1,5 @@
 export type TableProps = {
   page: string
-  offset: string
+  setOrder: Function
+  isLastPage: boolean
 }

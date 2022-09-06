@@ -3,20 +3,32 @@ import { MAIN_URL } from '../pages/constants'
 export type Props = {
   url: string
   body?: string
-  headers?: { [key: string]: string }
+  token: string
   method?: string
 }
 
-export const fetchData = async ({ url, body, headers, method }: Props) => {
+export type ErrorType = { msg: string; type: string; loc: string[] }
+
+export const fetchData = async ({ url, body, token, method }: Props) => {
   const response = await fetch(`${MAIN_URL}/${url}`, {
     method: method || 'GET',
     headers: {
-      ...headers,
+      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      Authorization: `Bearer ${token}`,
     },
     body: body,
   })
 
-  const data = await response.json()
+  let data = await response.json()
+  let error = ''
 
-  return { data, error: !response.ok }
+  if (!response.ok) {
+    if (typeof data.detail === 'string') {
+      error = data.detail
+    } else {
+      error = data.detail.map((item: ErrorType) => item.msg).join('. ')
+    }
+  }
+
+  return { data, error }
 }
