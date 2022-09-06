@@ -34,12 +34,14 @@ export const LinkGenerator: React.FC = () => {
             'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
             Authorization: `Bearer ${token}`,
           },
+          method: 'POST',
         })
 
         if (error) {
           setErrorMsg(data.detail)
         } else {
           dispatch(addLink(data))
+          setTargetLink('')
         }
       }
     } catch (e) {
