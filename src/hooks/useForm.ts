@@ -19,6 +19,11 @@ export const useForm = () => {
     setIsPasswordShown((prevState) => !prevState)
   }
 
+  const resetForm = () => {
+    setPassword('')
+    setUsername('')
+  }
+
   return {
     username,
     password,
@@ -26,5 +31,6 @@ export const useForm = () => {
     loginChangeHandler,
     passwordChangeHandler,
     clickShowPasswordHandler,
+    resetForm,
   }
 }

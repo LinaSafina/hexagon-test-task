@@ -9,6 +9,10 @@ export const StyledPagination = styled.ul`
   margin: 0;
 
   & > li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     button {
       border: none;
       background-color: transparent;

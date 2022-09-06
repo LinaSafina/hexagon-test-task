@@ -10,7 +10,7 @@ export const authMiddleware: Middleware<{}> = () => (next) => (action) => {
     }
 
     case 'auth/loginUser': {
-      localStorage.setItem('token', action.payload)
+      localStorage.setItem('token', action.payload.token)
 
       next(action)
       break

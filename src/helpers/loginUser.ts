@@ -30,10 +30,5 @@ export const loginUserHelper = async ({
   )
   const data = await response.json()
 
-  if (!response.ok) {
-    alert(data.detail.msg)
-    return
-  }
-
-  return data
+  return { data, error: !response.ok }
 }

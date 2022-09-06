@@ -22,12 +22,10 @@ export const linksSlice = createSlice({
   reducers: {
     addLink: (state, action: PayloadAction<LinkType>) => {
       state.links.push(action.payload)
-      console.log(state)
     },
 
     setLinks: (state, action: PayloadAction<LinksType>) => {
       state.links = action.payload
-      console.log(state)
     },
   },
 })

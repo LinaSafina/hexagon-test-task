@@ -13,7 +13,7 @@ export const StyledForm = styled.form`
   padding: 2rem 1rem;
   border: 1px solid rgb(145, 143, 143);
   border-radius: 5%;
-  max-width: 450px;
+  width: 500px;
 `
 export const AuthFormActions = styled.div`
   ${centeredColumnFlex}
