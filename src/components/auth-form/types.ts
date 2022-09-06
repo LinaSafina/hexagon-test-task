@@ -1,5 +1,5 @@
 export type Modes = 'login' | 'sign-up'
 
-export type FormProps = {
+export type AuthFormProps = {
   mode: Modes
 }

@@ -2,53 +2,38 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from './store'
 
 export type LinkType = {
-  id: string | number
-  name: string
-  phone: string
-  gender: string
-  userId: string
+  id: number
+  short: string
+  target: string
+  counter: number
 }
 
 export type LinksType = LinkType[]
 
-export type LinksState = {
-  Links: LinksType
-}
+export type LinksState = { links: LinksType }
 
 const initialState: LinksState = {
-  Links: [],
+  links: [],
 }
 
-export const LinksSlice = createSlice({
-  name: 'Links',
+export const linksSlice = createSlice({
+  name: 'links',
   initialState,
   reducers: {
     addLink: (state, action: PayloadAction<LinkType>) => {
-      state.Links.push(action.payload)
-    },
-
-    editLink: (state, action: PayloadAction<LinkType>) => {
-      const index = state.Links.findIndex(
-        (Link) => Link.id === action.payload.id
-      )
-      state.Links[index] = { ...state.Links[index], ...action.payload }
-    },
-
-    deleteLink: (state, action: PayloadAction<string>) => {
-      state.Links.splice(
-        state.Links.findIndex((Link) => Link.id === action.payload),
-        1
-      )
+      state.links.push(action.payload)
+      console.log(state)
     },
 
     setLinks: (state, action: PayloadAction<LinksType>) => {
-      state.Links = action.payload
+      state.links = action.payload
+      console.log(state)
     },
   },
 })
 
-export const { addLink, editLink, deleteLink, setLinks } = LinksSlice.actions
+export const { addLink, setLinks } = linksSlice.actions
 
-export const selectLinks = (state: RootState) => state.Links.Links
+export const selectLinks = (state: RootState) => state.links.links
 
-export default LinksSlice.reducer
+export default linksSlice.reducer

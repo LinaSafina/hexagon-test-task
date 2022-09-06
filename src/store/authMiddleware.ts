@@ -1,18 +1,16 @@
 import { Middleware } from '@reduxjs/toolkit'
 
-export const authMiddleware: Middleware<{}> = (store) => (next) => (action) => {
+export const authMiddleware: Middleware<{}> = () => (next) => (action) => {
   switch (action.type) {
     case 'auth/logoutUser': {
       localStorage.removeItem('token')
-      localStorage.removeItem('userId')
 
       next(action)
       break
     }
 
     case 'auth/loginUser': {
-      localStorage.setItem('token', action.payload.token)
-      localStorage.setItem('userId', action.payload.userId)
+      localStorage.setItem('token', action.payload)
 
       next(action)
       break

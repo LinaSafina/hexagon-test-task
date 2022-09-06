@@ -11,7 +11,7 @@ const App: React.FC = () => {
   return (
     <>
       <Navbar />
-      <main className="container">
+      <main>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

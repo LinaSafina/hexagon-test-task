@@ -1,10 +1,10 @@
-import { Form } from '../components/form/Form'
+import { AuthForm } from '../components/auth-form/AuthForm'
 import { Wrapper } from '../components/wrapper/Wrapper'
 
 export const Login: React.FC = () => {
   return (
     <Wrapper>
-      <Form mode="login" />
+      <AuthForm mode="login" />
     </Wrapper>
   )
 }

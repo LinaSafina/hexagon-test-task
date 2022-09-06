@@ -3,23 +3,16 @@ import { AuthState } from './authSlice'
 export const getPreloadedUserData: () => {
   auth: AuthState
 } = () => {
-  const initialState = { auth: { token: '', userId: '' } }
+  const initialState = { auth: { isLoggedIn: false } }
   try {
     let token = localStorage.getItem('token')
-    let userId = localStorage.getItem('userId')
 
-    if (token && userId) {
-      const initialUserData = {
-        auth: {
-          token,
-          userId,
-        },
-      }
-      return initialUserData
-    } else {
-      return initialState
+    if (token) {
+      initialState.auth.isLoggedIn = true
     }
+    return initialState
   } catch (e) {
+    console.log(e)
     return initialState
   }
 }

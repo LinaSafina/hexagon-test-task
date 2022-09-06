@@ -1,18 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authReducer, { AuthState } from './authSlice'
-import LinksReducer, { LinksState, LinkType } from './linksSlice'
+import authReducer from './authSlice'
+import linksReducer from './linksSlice'
 import { authMiddleware } from './authMiddleware'
 import { getPreloadedUserData } from './getPreloadedData'
 
 const preloadedState = {
   ...getPreloadedUserData(),
-  Links: { Links: [] },
+  links: { links: [] },
 }
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    Links: LinksReducer,
+    links: linksReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(authMiddleware),

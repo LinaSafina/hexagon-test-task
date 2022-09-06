@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-const centeredColumnFlex = css`
+export const centeredColumnFlex = css`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -15,11 +15,11 @@ export const StyledForm = styled.form`
   border-radius: 5%;
   max-width: 450px;
 `
-export const FormActions = styled.div`
+export const AuthFormActions = styled.div`
   ${centeredColumnFlex}
   row-gap:1rem;
 `
 
-export const FormHeading = styled.h1`
+export const AuthFormHeading = styled.h1`
   font-size: 2rem;
 `

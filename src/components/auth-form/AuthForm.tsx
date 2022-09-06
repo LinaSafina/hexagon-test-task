@@ -1,23 +1,23 @@
 import { Button, IconButton, InputAdornment, TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-// import { useDispatch } from 'react-redux'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import { useAppDispatch } from '../../store/hooks'
 
 import { useForm } from '../../hooks/useForm'
 import {
-  FORM_HEADINGS,
+  AUTH_FORM_HEADINGS,
   IDS,
   LABELS,
-  MAIN_URL,
   NAMES,
   SUBMIT_BUTTON,
-  URLS,
 } from './constants'
-import { FormProps } from './types'
-import { FormActions, FormHeading, StyledForm } from './styled'
+import { AuthFormProps } from './types'
+import { AuthFormActions, AuthFormHeading, StyledForm } from './styled'
+import { loginUser } from '../../store/authSlice'
+import { loginUserHelper } from '../../helpers/loginUser'
 
-export const Form: React.FC<FormProps> = ({ mode }) => {
+export const AuthForm: React.FC<AuthFormProps> = ({ mode }) => {
   const isLogin = mode === 'login'
 
   const {
@@ -30,7 +30,7 @@ export const Form: React.FC<FormProps> = ({ mode }) => {
   } = useForm()
 
   const navigate = useNavigate()
-  // const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const changeModeHandler = () => {
     if (isLogin) {
@@ -44,36 +44,10 @@ export const Form: React.FC<FormProps> = ({ mode }) => {
     event.preventDefault()
 
     try {
-      const response = await fetch(
-        `${MAIN_URL}/${
-          isLogin ? URLS.LOGIN : URLS.REGISTER
-        }?username=${username}&password=${password}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-          },
-          body: isLogin
-            ? 'username=' +
-              encodeURIComponent(username) +
-              '&password=' +
-              encodeURIComponent(password)
-            : '',
-        }
-      )
-      const data = await response.json()
+      const data = await loginUserHelper({ username, password, isLogin })
 
-      if (!response.ok) {
-        alert(data.msg)
-        return
-      }
-
-      // dispatch()
-      // loginUser({
-      //   token: data.accessToken,
-      //   userId: data.user.id,
-      // })
-      if (isLogin) {
+      if (isLogin && data) {
+        dispatch(loginUser(data.access_token))
         navigate('/main')
       } else {
         navigate('/login')
@@ -85,9 +59,9 @@ export const Form: React.FC<FormProps> = ({ mode }) => {
 
   return (
     <StyledForm onSubmit={submitFormHandler}>
-      <FormHeading>
-        {isLogin ? FORM_HEADINGS.LOGIN : FORM_HEADINGS.SIGN_UP}
-      </FormHeading>
+      <AuthFormHeading>
+        {isLogin ? AUTH_FORM_HEADINGS.LOGIN : AUTH_FORM_HEADINGS.SIGN_UP}
+      </AuthFormHeading>
       <TextField
         id={IDS.LOGIN}
         name={NAMES.LOGIN}
@@ -121,7 +95,7 @@ export const Form: React.FC<FormProps> = ({ mode }) => {
           ),
         }}
       ></TextField>
-      <FormActions>
+      <AuthFormActions>
         <Button
           variant="contained"
           type="submit"
@@ -130,9 +104,9 @@ export const Form: React.FC<FormProps> = ({ mode }) => {
           {isLogin ? SUBMIT_BUTTON.LOGIN : SUBMIT_BUTTON.SIGN_UP}
         </Button>
         <Button variant="text" type="button" onClick={changeModeHandler}>
-          {isLogin ? FORM_HEADINGS.SIGN_UP : FORM_HEADINGS.LOGIN}
+          {isLogin ? AUTH_FORM_HEADINGS.SIGN_UP : AUTH_FORM_HEADINGS.LOGIN}
         </Button>
-      </FormActions>
+      </AuthFormActions>
     </StyledForm>
   )
 }
