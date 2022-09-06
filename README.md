@@ -1,110 +1,37 @@
-[![npm version](https://badge.fury.io/js/cra-template-typescript-redux.svg)](https://badge.fury.io/js/cra-template-typescript-redux)
-[![Action status](https://github.com/alexandr-g/cra-template-typescript-redux/workflows/CI/badge.svg?branch=master)](https://github.com/alexandr-g/cra-template-typescript-redux/actions)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-![npm downloads](https://img.shields.io/npm/dm/cra-template-typescript-redux)
+# Hexagon, Тестовое задание
 
-# A quick start Redux + TypeScript Create React App template
+Сервис по получению по произвольной ссылке (например https://docs.docker.com/engine/reference/commandline/attach/) короткой ссылки (http://79.143.31.216/s/7ASMU), реализующей перенаправление пользователя на исходную страницу.
 
-An opinionated quick start [Create React App](https://github.com/facebook/create-react-app) (CRA) _template_ with configured **Redux**, **TypeScript**, **React Router**, **Enzyme** and custom **ESlint** configuration.
+В приложении пользователь может:
 
-Original Create React App README available [here](./README_CRA.md)
+1. Зарегистрироваться или авторизоваться
+2. Создать произвольное количество сокращенных ссылок
+3. Просматривать количество переходов по каждой из коротких ссылок
+4. Сортировать данные в таблице по столбцам (кликнув на заголовок соответствующего столбца)
+5. Скопировать короткую ссылку, нажав на иконку копирования
 
-## Usage
+## Стек технологий
 
-```bash
-npx create-react-app your-project-name --template typescript-redux
-```
+- Приложение создано с помощью [CRA](https://github.com/facebook/create-react-app) (React 18), выполнено на TypeScript. Версия Node - **v16.13.2** (также указана в файле .nvmrc)
+- В качестве стейт менеджера использован [Redux](https://redux.js.org/) (с использованием [ReduxToolkit](https://redux-toolkit.js.org/)).
+- Использовалась UI-библиотека компонентов MUI, а также Styled-components для стилизации компонент.
+- для реализации регистрации, авторизации пользователя, сортировки данных в таблице, получения коротких ссылок, пагинации использованы запросы к [API](http://79.143.31.216/docs).
+- для копирования коротких ссылок использовалась библиотека react-copy-to-clipboard
 
-Or
+## Запуск приложения
 
-```bash
-yarn create react-app your-project-name --template typescript-redux
-```
+**Приложение развернуто и доступно [ЗДЕСЬ](https://hexagon-test-task.web.app)**
 
-`npx` command installs the most recent stable version of CRA from npm.
+1. склонировать к себе на компьютер ветку main и установить все зависимости (_npm i_)
 
-`--template` parameter points to this template, note that `cra-template-` prefix is omitted.
+2. запустить приложение в режиме разработки - **npm start**. Открыть **http://localhost:3000** (страница входа в приложение) в браузере, если это не произошло автоматически.
 
-## Motivation
+3. войти в приложение, если уже есть учетная запись или зарегистрироваться в нем.
+   Для входа в приложение можно использовать одни из следующих данных:
 
-You know the pain. You start a new project from scratch and need to configure it again and again. It needs routing, ok you setup Router, then you need Redux - ok, oh 😩 Redux boilerplate is taking so much time to type. Wait... what if you could have all the tools you want just from the beginning? I want to focus on building amazing projects and not spending hours configuring. That's why I've created this template. It's here for you to use.
-
-## Available Scripts
-
-In the project directory, you can run:
-
-- `yarn start` - runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-- `yarn test` - launches the test runner in the interactive watch mode.
-
-- `yarn build` - builds the app for production to the `build` folder.
-
-- `yarn eject` - exposes content of `react-script` package
-
-- `yarn lint` - lints project files according to eslint rules, see below. Typical use case: continuous integration environments, Travis, CircleCI, etc.
-
-- `yarn fix` - same as `yarn lint`, but also fixes errors, when possible. Typical use case: local development environment, git hooks.
-
-Due to CRA template limitations (we can change only `scripts` and `dependencies` inside generated `package.json`) all configuration is done by adding config files where possible. Also no `devDependencies` for now, sorry.
-
-## Redux configuration
-
-The template provides basic Redux configuration with [feature based](https://redux.js.org/style-guide/style-guide/#structure-files-as-feature-folders-or-ducks) folder structure. You can use [Redux devtools browser extension](http://extension.remotedev.io/). Sample feature included in `src/features` folder, note technology agnostic `features` folder name. Based on Redux maintainers recommendation.
-
-## Testing
-
-Testing is done with [Enzyme](https://airbnb.io/enzyme/).
-
-## [Prettier](https://prettier.io/)
-
-I added `prettier` to force consistent formatting. Don't like trailing semicolons? Feel free to [tweak prettier rules](https://prettier.io/docs/en/configuration.html) inside `.prettierrc` file to match your code style.
-
-## Styles/CSS/Styling
-
-Just for the styling purpose of the example app, I used [Materialize](https://materializecss.com/). The template is shipped with the Materialize by default. I want to make sure that this template is style agnostic so you can plugin any CSS-in-JS or whatever library/framework you want to use for styles on your own.
-
-### How to remove materialize
-
-In order to remove Materialize [MaterializeCSS](https://materializecss.com/) navigate to the `public` folder, open `index.html` and remove following CDN link in the `<head>` lines 18-22:
-
-```html
-<!--Import materialize.css-->
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-/>
-```
-
-Remove or adjust all the `classNames` related to the Materialize and feel free to use your own styling.
-
-## Eslint configurations
-
-The template extends CRA ESLint rules with a custom set, tailored for the reasonable and clean development process.
-
-Eslint rules are commented for your convenience feel free to tweak or remove them inside `.eslintrc`. No judgment.
-
-## Testing template locally
-
-To test the output of your template locally run
-
-```bash
-npx create-react-app my-app --template file:/\path\to\file
-```
-
-## How to create custom Create React App (CRA) templates
-
-I created a step by step guide on how to create your own templates.
-
-[View on Medium](https://medium.com/@alexgrischuk/how-to-create-custom-create-react-app-cra-templates-73a5196edeb)
-
-[View on personal blog](https://grischuk.de/how-to-create-custom-create-react-app-cra-templates)
-
-[View on dev.to](https://dev.to/alexandrg/how-to-create-custom-create-react-app-cra-templates-3nca)
-
-## My other templates
-
-[A light weight Create React App template with Recoil for state management](https://github.com/alexandr-g/cra-template-recoil)
-
-## Thank you
-
-I hope this template will be helpful for you and you will love using it 🖤
+- логин - *user1@gmail.com*
+  пароль - _User1_
+- логин - *user2@gmail.com*
+  пароль - _User2_
+- логин - *user3@gmail.com*
+  пароль - _User3_
